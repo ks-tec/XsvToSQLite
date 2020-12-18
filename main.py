@@ -1,4 +1,4 @@
-# Import from csv/tsv file to SQLite3 database.
+# Import from csv/tsv/psv file to SQLite3 database.
 #
 # Copyright (c) 2020 ks-tec
 #
