@@ -19,6 +19,7 @@
 
 
 import os, sys, csv, sqlite3, traceback
+from collections import namedtuple
 
 ########## change params here ##########
 import_source_file = '..\\prefecture_code.csv'
@@ -34,6 +35,13 @@ class XsvToSQLite():
   """
   Import data from XSV file to SQLite3 database.
   """
+
+  # set isolation level namedtuple
+  #   IsolationLevel.DEFERRED  : The first read operation against a database creates a SHARED lock and the first write operation creates a RESERVED lock.
+  #   IsolationLevel.IMMEDIATE : RESERVED locks are acquired on all databases as soon as the BEGIN command is executed, without waiting for the database to be used.
+  #   IsolationLevel.EXCLUSIVE : No other database connection except for read_uncommitted connections will be able to read the database and no other connection without exception will be able to write the database until the transaction is complete.
+  Isolation = namedtuple('Isolation', 'DEFERRED, IMMEDIATE, EXCLUSIVE')
+  IsolationLevel = Isolation('DEFERRED', 'IMMEDIATE', 'EXCLUSIVE')
 
   def __init__(self, import_source_file, target_db_name, target_db_table, is_header_skip=False, is_create_table=False, sql_create_table=None):
     """
@@ -77,7 +85,7 @@ class XsvToSQLite():
         if not sql_create_table:
           raise ValueError('It\'s necessary SQL to create table.')
 
-  def begin(self, cur, isolation_level='DEFERRED'):
+  def begin(self, cur, isolation_level=IsolationLevel.DEFERRED):
     """
     begin transaction.
     isolation level is optional, and can specify value of 'DEFERRED', 'IMMEDIATE', or 'EXCLUSIVE'.
@@ -208,9 +216,10 @@ if __name__ == '__main__':
       cur = conn.cursor()
 
       # begin transaction
-      # sql.begin(cur, 'DEFERRED')
-      sql.begin(cur, 'IMMEDIATE')
-      # sql.begin(cur, 'EXCLUSIVE')
+      # sql.begin(cur)
+      # sql.begin(cur, sql.IsolationLevel.DEFERRED)
+      sql.begin(cur, sql.IsolationLevel.IMMEDIATE)
+      # sql.begin(cur, sql.IsolationLevel.EXCLUSIVE)
 
       # import data to SQLite3 database
       sql.insert_from_file(cur)

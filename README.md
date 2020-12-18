@@ -97,6 +97,9 @@ d-----       2020/12/17     12:20                XsvToSQLite
 
 ## Change log
 
+### 1.0.2
+Defined IsolationLevel by namedtuple.
+
 ### 1.0.1
 Explicitly start a transaction.  
 And, that was achieved by adding method 'begin' to XsvToSQLite class.  
