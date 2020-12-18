@@ -19,6 +19,7 @@
 
 
 import os, sys, csv, sqlite3, traceback
+from collections import namedtuple
 
 ########## change params here ##########
 import_source_file = '..\\prefecture_code.csv'
@@ -77,6 +78,19 @@ class XsvToSQLite():
         if not sql_create_table:
           raise ValueError('It\'s necessary SQL to create table.')
 
+  def begin(self, cur, isolation_level='DEFERRED'):
+    """
+    begin transaction.
+    isolation level is optional, and can specify value of 'DEFERRED', 'IMMEDIATE', or 'EXCLUSIVE'.
+
+    Args:
+      cur:  cursor object of database connection
+      isolation_level:  transaction isolation level, 'DEFERRED', 'IMMEDIATE', or 'EXCLUSIVE'
+    """
+    print(self.begin.__name__ + ': Begining Transaction. (' + isolation_level + ')')
+
+    cur.execute('begin ' + isolation_level)
+
   def insert_from_file(self, cur):
     """
     import data to SQLite database.
@@ -119,7 +133,7 @@ class XsvToSQLite():
 
       data = [i for i in reader]
     
-    return (header, data)
+    return header, data
 
   def make_create_query(self, import_header):
     """
@@ -191,10 +205,15 @@ if __name__ == '__main__':
 
     try:
       # open the connection to SQLite3 database
-      conn = sqlite3.connect(sql.target_db_name, isolation_level='EXCLUSIVE')
+      conn = sqlite3.connect(sql.target_db_name)
+      cur = conn.cursor()
+
+      # begin transaction
+      # sql.begin(cur, 'DEFERRED')
+      sql.begin(cur, 'IMMEDIATE')
+      # sql.begin(cur, 'EXCLUSIVE')
 
       # import data to SQLite3 database
-      cur = conn.cursor()
       sql.insert_from_file(cur)
 
       # commit changes to SQLite3 database
