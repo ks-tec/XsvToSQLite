@@ -8,7 +8,14 @@ And, the data in source file will be imported to SQLite database.
 
 ## Installation
 You download this project files from GitHub repository.  
-And put the dowonload project to your any directry.  
+And put the dowonload project to your any directory.  
+
+```
+> cd your-directory
+
+> git clone https://github.com/ks-tec/XsvToSQLite
+
+```
 
 ## Settings
 You can change setting value according to your environment.  
