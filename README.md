@@ -75,6 +75,7 @@ d-----       2020/12/17     12:20                XsvToSQLite
 
 > python main.py
 XsvToSQLite initializing, and instantiating.
+begin: Begining Transaction. (IMMEDIATE)
 insert_from_file: Inserting all data from file.
 read_import_file: Reading data from import source.
 make_create_query: Creating the table creation DDL.
