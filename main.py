@@ -154,7 +154,7 @@ class XsvToSQLite():
 
   def count_column_nums(self, import_data):
     """
-    picking number of columns from source file to import.
+    count number of columns from source file to import.
 
     Args:
       import_data:  two-dimensional list of items in data rows
@@ -163,10 +163,10 @@ class XsvToSQLite():
       count of columns
     """
     print(self.count_column_nums.__name__ + ': Counting columns number.')
-    columns = []
 
-    for row in import_data:
-      columns.append(len(row))
+    # count number of columns in each row.
+    # if the number of columns is different, raise ValueError.
+    columns = [len(row) for row in import_data]
     if len(set(columns)) != 1:
       raise ValueError('this import files has different column numbers.')
 
