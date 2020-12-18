@@ -19,7 +19,6 @@
 
 
 import os, sys, csv, sqlite3, traceback
-from collections import namedtuple
 
 ########## change params here ##########
 import_source_file = '..\\prefecture_code.csv'
