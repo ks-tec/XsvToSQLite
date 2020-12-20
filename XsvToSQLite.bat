@@ -7,7 +7,7 @@ rem the following call is for importing csv formated file to SQLite3 database.
 python XsvToSQLite.py ^
   --source_file=..\prefecture_code.csv ^
   --output_database=..\prefecture_code.db ^
-  --output_table=prefecture_code ^
+  --output_table=prefecture ^
   --is_header_skip ^
   --is_create_table ^
   --ddl_create_table="hoge"
