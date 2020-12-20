@@ -18,17 +18,8 @@
 # OTHER DEALINGS INTHE SOFTWARE.
 
 
-import os, sys, csv, sqlite3, traceback
+import os, sys, csv, sqlite3, traceback, argparse
 from collections import namedtuple
-
-########## change params here ##########
-import_source_file = '..\\prefecture_code.csv'
-target_db_name     = '..\\prefecture_code.db'
-target_db_table    = 'prefecture'
-is_header_skip     = True
-is_create_table    = True
-sql_create_table   = None
-########################################
 
 
 class XsvToSQLite():
@@ -198,15 +189,28 @@ if __name__ == '__main__':
   """
   Entry point at functional execution.
   """
+  # parse arguments from command line parameters
+  p = argparse.ArgumentParser()
+  p.description = 'the data in source file will be imported to SQLite database.'
+  p.add_argument('-s',  '--source_file',      type=str,            help='import source file')
+  p.add_argument('-o',  '--output_database',  type=str,            help='output database file')
+  p.add_argument('-t',  '--output_table',     type=str,            help='create table name')
+  p.add_argument('-cs', '--is_create_table',  action='store_true', help='is create table')
+  p.add_argument('-hs', '--is_header_skip',   action='store_true', help='is header skip')
+  p.add_argument('-d',  '--ddl_create_table', type=str,            help='table creation ddl')
+
+  args = p.parse_args()
+  print()
+
   try:
     # instantiate of XsvToSQLite class.
     sql = XsvToSQLite(
-      import_source_file = import_source_file,
-      target_db_name = target_db_name,
-      target_db_table = target_db_table,
-      is_header_skip = is_header_skip,
-      is_create_table = is_create_table,
-      sql_create_table = sql_create_table
+      import_source_file = args.source_file,
+      target_db_name     = args.output_database,
+      target_db_table    = args.output_table,
+      is_header_skip     = args.is_header_skip,
+      is_create_table    = args.is_create_table,
+      sql_create_table   = args.ddl_create_table
     )
     conn = None
 

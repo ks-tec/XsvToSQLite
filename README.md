@@ -17,19 +17,29 @@ And put the dowonload project to your any directory.
 
 ```
 
-## Settings
+## Running parameters
 You can change setting value according to your environment.  
-They are set directly in "main.py".  
+They are set directly in "XsvToSQLite.bat".  
+
+| short keyword | normal keyword | defalut value | note |
+| ---- | ---- | ---- | ---- |
+| -s | --source_file | ..\prefecture_code.csv | import source XSV file path |
+| -o | --output_database | ..\prefecture_code.db |  output database file path |
+| -t | --output_table | prefecture_code | table name to creating |
+| -hs | --is_header_skip | (specified) | action flag for skip header, specified is true |
+| -cs | --is_create_table | (specified) |action flag for create table, specified is true |
+| -d | --ddl_create_table | "hoge" | create table DDL, "hoge" is dummy |
+
+The following example is in batch file.  
 
 ```
-########## change params here ##########
-import_source_file = 'C:\\VSCode\\Projects\\prefecture_code.csv'
-target_db_name     = 'C:\\VSCode\\Projects\\prefecture_code.db'
-target_db_table    = 'prefecture'
-is_header_skip     = True
-is_create_table    = True
-sql_create_table   = None
-########################################
+python XsvToSQLite.py ^
+  --source_file=..\prefecture_code.csv ^
+  --output_database=..\prefecture_code.db ^
+  --output_table=prefecture_code ^
+  --is_header_skip ^
+  --is_create_table ^
+  --ddl_create_table="hoge"
 ```
 
 The following is supported format of XSV data file.  
@@ -73,7 +83,14 @@ Mode                LastWriteTime         Length Name
 d-----       2020/12/17     12:20                XsvToSQLite
 -a----       2020/12/16     18:44            689 prefecture_code.csv
 
-> python main.py
+> python XsvToSQLite.py ^
+  --source_file=..\prefecture_code.csv ^
+  --output_database=..\prefecture_code.db ^
+  --output_table=prefecture_code ^
+  --is_header_skip ^
+  --is_create_table ^
+  --ddl_create_table="hoge"
+
 XsvToSQLite initializing, and instantiating.
 begin: Begining Transaction. (IMMEDIATE)
 insert_from_file: Inserting all data from file.
@@ -97,6 +114,9 @@ d-----       2020/12/17     12:20                XsvToSQLite
 ```
 
 ## Change log
+### 1.1.0
+Changed file name 'main.py' to 'XsvToSQLite.py'.  
+And, appended batch file for executing.  
 
 ### 1.0.2
 Defined IsolationLevel by namedtuple.
